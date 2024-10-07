@@ -11,7 +11,7 @@ for shoe in data:
             "brand": shoe.get("brand")
         })
 
-with open('unknown_brand_shoes', 'w') as file:
+with open('../unknown_brand_shoes', 'w') as file:
     json.dump(unknown_brand, file, indent = 4)
 
 print(f"Found {len(unknown_brand)} shoes")

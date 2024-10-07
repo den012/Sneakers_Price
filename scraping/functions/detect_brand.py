@@ -66,21 +66,21 @@ def extract_brand(slug):
     for key, brand in brand_map.items():
         if str(key).lower() in str(slug).lower():
             return brand
-    return "Unknown"
+    return "N/A"
 
-with open('data/sneakers_data_v1.json', 'r') as file:
-    data = json.load(file)
+def detect_brands(input_file, output_file):
+    with open(input_file, 'r') as file:
+        data = json.load(file)
 
-count = 0
-for sneaker in data:
-    name = sneaker.get('value')
-    #print(slug)
-    brand = extract_brand(name)
-    if str(brand) != "Unknown":
-        count += 1
-    sneaker["brand"] = brand
+    count = 0
+    for sneaker in data:
+        name = sneaker.get('sneaker_name')
+        brand = extract_brand(name)
+        if str(brand) != "N/A":
+            count += 1
+        sneaker['sneaker_brand'] = brand
 
-with open('updated_sneaker_data.json', 'w') as file:
-    json.dump(data, file, indent=4)
+    with open(output_file, 'w') as file:
+        json.dump(data, file, indent=4)
 
-print(count)
+    print(count)

@@ -32,17 +32,18 @@ def add_collaboration(input_file = 'sneakers_data.json', output_file = 'sneaker_
         sneakers_data = json.load(file)
 
     for sneaker in sneakers_data:
-        name = sneaker.get('value')
+        name = sneaker.get('sneaker_name')
         if name:
             collaboration = extract_collaboration(name)
             if collaboration:
                 count += 1
                 print(collaboration)
-                sneaker['collaboration'] = collaboration
+                sneaker['collaboration'] = 1
+                sneaker['collaboration_name'] = collaboration
+            else:
+                sneaker['collaboration'] = 0
+                sneaker['collaboration_name'] = 'No'
     with open(output_file, 'w', encoding = 'utf-8') as file:
-        json.dump(sneakers_data, file, ensure_ascii = False)
+        json.dump(sneakers_data, file, ensure_ascii = False, indent= 4)
     return count, sneakers_data
 
-number, sneakers_with_collab = add_collaboration('sneakers_data.json', 'sneakers_data_v1.json')
-print(number)
-print(f"Processed {len(sneakers_with_collab)}")
