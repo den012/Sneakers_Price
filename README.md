@@ -4,6 +4,10 @@
 
 Documentation of my Final project
 
+Useful pages
+https://whimsical.com/U88m7uXKkKf9sbXyAWZN7D
+https://duckdb.org/
+
 ## Step 1
 Import all my fuctions into the main file
 ```py
