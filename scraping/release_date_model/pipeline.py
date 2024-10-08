@@ -9,9 +9,9 @@ from sklearn.impute import SimpleImputer
 # Main pipeline
 def main_pipeline():
     # Load training and testing data
-    df_train = load_data('training_data.json')
-    df_test = load_data('testing_data.json')
-    df_predict = load_data('data_to_predict.json')
+    df_train = load_data('data/training_data.json')
+    df_test = load_data('data/testing_data.json')
+    df_predict = load_data('data/data_to_predict.json')
 
     # Combine training and testing data for encoding
     combined_df = pd.concat([df_train, df_test])
