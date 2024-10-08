@@ -15,7 +15,8 @@ def refractor_data(input_file, output_file):
                 sneaker['release_year'] = None
                 sneaker['release_month'] = None
                 sneaker['release_day'] = None
-        del sneaker['release_date']
+            if 'release_date' in sneaker:
+                del sneaker['release_date']
 
         with open(output_file, 'w') as file:
             json.dump(data, file, indent=4)
@@ -44,5 +45,3 @@ def update_release_dates(input_file, predicted_data_file, output_file):
     with open(output_file, 'w') as file:
         json.dump(old_data, file, indent=4)
 
-#refractor_data('../testing_steps/sneakers_data.json', 'sneaker_data_updated.json')
-update_release_dates('sneaker_data_updated.json', 'predicted_release_dates.json', 'sneaker_data_updated.json')

@@ -31,12 +31,3 @@ def plot_model_accuracies(models_mse):
 
     # Show the plot
     plt.show()
-
-# Example usage
-if __name__ == "__main__":
-    models_mse = {
-        'XGBoost': (None, 29.369152563938172),
-        'Linear Regression': (None, 29.474362950816),
-        'Decision Tree': (None, 29.369152530118523)
-    }
-    plot_model_accuracies(models_mse)
