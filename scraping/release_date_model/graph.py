@@ -3,9 +3,9 @@ import numpy as np
 
 # Example MAE values
 mae_values = {
-    'Random Forest': 2.054285182255343e+16,
-    'XGBoost': 2.059111278227617e+16,
-    'Linear Regression': 2.0577255937032816e+16,
+    'Random Forest Mean Absolute Error': 6951.403239257334,
+    'XGBoost Mean Absolute Error:' : 6952.976918278228,
+    'Linear Regression Mean Absolute Error:' : 6954.017467248908,
 }
 
 # Extracting keys and values for plotting
