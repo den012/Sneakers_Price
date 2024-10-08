@@ -27,19 +27,18 @@ def encode_colors(df):
     return df, encoder
 
 
-# Step 4: Prepare training and prediction sets
 def prepare_data(df, encoder):
     # Convert release_date to datetime
     df['release_date'] = pd.to_datetime(df['release_date'], errors='coerce')
 
+    # Create a new column for the integer representation of release_date
+    df['release_date_int'] = df['release_date'].astype(int)
+
     df_with_dates = df.dropna(subset=['release_date'])
     df_without_dates = df[df['release_date'].isna()]
 
-    # Create a separate column for model training using .loc to avoid SettingWithCopyWarning
-    df_with_dates = df_with_dates.copy()
-    df_with_dates.loc[:, 'release_date_int'] = df_with_dates['release_date'].astype(int)
-
-    y = df_with_dates['release_date_int']  # Use the new column for model training
+    # Use the release_date_int column for model training
+    y = df_with_dates['release_date_int']
     X = df_with_dates[encoder.get_feature_names_out(['sneaker_color'])]
 
     return X, y, df_with_dates, df_without_dates

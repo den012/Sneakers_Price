@@ -3,7 +3,7 @@ import numpy as np
 
 # Example MAE values
 mae_values = {
-    'Random Forest Mean Absolute Error': 6951.403239257334,
+    'Random Forest Mean Absolute Error': 6950.1736873744485,
     'XGBoost Mean Absolute Error:' : 6952.976918278228,
     'Linear Regression Mean Absolute Error:' : 6954.017467248908,
 }
