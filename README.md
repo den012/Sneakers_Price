@@ -16,6 +16,10 @@ from functions.remove_rename_add_columns import remove_rename_add_data_cols
 from functions.detect_brand import detect_brands
 from functions.detect_collab import celebs, add_collaboration
 from functions.detect_sneaker_dicount_tag import fix_sneaker_discount
+from release_date_model.filter_data import *
+from release_date_model.merge_to_dataset import *
+from release_date_model.pipeline import *
+from release_date_model.graph import *
 ```
 ## Step 2
 Scrape goat.com website using requests.
