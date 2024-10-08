@@ -45,3 +45,31 @@ Fix empty discount tags by looping over the shoes and checking if their price is
 ```py
 fix_sneaker_discount('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
 ```
+
+#prepare data for model
+# refractor_data('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
+
+# get model data
+# get_data_for_model('testing_steps/sneakers_data.json', 'testing_steps/data_for_model.json')
+
+#get training and testing data
+# get_training_and_testing_data('testing_steps/data_for_model.json', 'testing_steps/train_data.json', 'testing_steps/test_data.json')
+
+#get data to predict
+# get_data_to_predict('testing_steps/sneakers_data.json', 'testing_steps/data_to_predict.json')
+
+# run the model and get predictions
+# model_pipeline()
+
+#merge predictions with the original dataset
+# update_release_dates('testing_steps/sneakers_data.json', 'testing_steps/data_predicted.json', 'testing_steps/sneakers_data.json')
+
+#draw graph
+# models_mse = {
+#         'XGBoost': (None, 32.033138721185516),
+#         'Linear Regression': (None, 32.429062066651895),
+#         'Decision Tree': (None, 32.0331386834529)
+#     }
+# plot_model_accuracies(models_mse)
+
+![model_comparison](date_model_comparison.png)
