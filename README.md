@@ -45,3 +45,52 @@ Fix empty discount tags by looping over the shoes and checking if their price is
 ```py
 fix_sneaker_discount('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
 ```
+
+## Step 7
+ prepare data for model
+```py
+refractor_data('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
+```
+
+## Step 8
+get model data
+```py
+get_data_for_model('testing_steps/sneakers_data.json', 'testing_steps/data_for_model.json')
+```
+
+## Step 9
+get training and testing data
+```py
+get_training_and_testing_data('testing_steps/data_for_model.json', 'testing_steps/train_data.json', 'testing_steps/test_data.json')
+```
+
+## Step 10
+get data to predict
+```py
+# get_data_to_predict('testing_steps/sneakers_data.json', 'testing_steps/data_to_predict.json')
+```
+
+## Step 11
+run the model and get predictions
+```py
+# model_pipeline()
+```
+
+## Step 12
+merge predictions with the original dataset
+```py
+update_release_dates('testing_steps/sneakers_data.json', 'testing_steps/data_predicted.json', 'testing_steps/sneakers_data.json')
+```
+
+## Step 13
+draw graph
+```
+models_mse = {
+     'XGBoost': (None, 32.033138721185516),
+     'Linear Regression': (None, 32.429062066651895),
+     'Decision Tree': (None, 32.0331386834529)
+     }
+plot_model_accuracies(models_mse)
+```
+
+![graph](release_models.png)
