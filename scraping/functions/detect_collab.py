@@ -8,7 +8,8 @@ celebs = ["Sabrina", "Cardi B", "Pharrell Williams", "Kendrick Lamar", "Fenty", 
           "Nigo", "Tinker Hatfield", "Teyana Taylor", "Odell Beckham Jr.", "Dame D.O.L.L.A.", "Migos", "Fabolous",
           "Kylie Jenner", "Bella Hadid", "Puma's LaMelo Ball", "Beyoncé", "Snoop Dogg", "Drake", "J Cole", "Ariana Grande",
           "Tyler the Creator", "Kendall Jenner", "Dwayne Johnson", "Kobe Bryant", "G-Dragon", "James Harden", "Kaitlyn Dever",
-          "Tinashe", "Fresh Foam"]
+          "Tinashe", "Fresh Foam", "Off-White", "Kith", "Supreme", "Yeezy", "Fear of God", "Travis Scott", "Comme des Garçons",
+          "Bape", "Stüssy", "Cactus Jack", "Cactus Plant Flea Market", "Union", "Dior",]
 
 #check if there is a collaboration in the sneaker name
 def extract_collaboration(sneaker_name):
