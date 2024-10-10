@@ -2,14 +2,17 @@ import json
 import re
 
 #create a list with celebrities that worked with shoe companies
-celebs = ["Sabrina", "Cardi B", "Pharrell Williams", "Kendrick Lamar", "Fenty", "Michael Jordan", "Travis Scott",
-          "Donald Glover", "Bad Bunny", "Selena Gomez", "Big Sean", "Vivienne Westwood", "Serena Williams", "Gigi Hadid",
-          "Kanye West", "One Star", "Justin Timberlake", "Rihanna", "Lil Nas X", "A$AP Rocky", "J Balvin", "Post Malone",
-          "Nigo", "Tinker Hatfield", "Teyana Taylor", "Odell Beckham Jr.", "Dame D.O.L.L.A.", "Migos", "Fabolous",
-          "Kylie Jenner", "Bella Hadid", "Puma's LaMelo Ball", "Beyoncé", "Snoop Dogg", "Drake", "J Cole", "Ariana Grande",
-          "Tyler the Creator", "Kendall Jenner", "Dwayne Johnson", "Kobe Bryant", "G-Dragon", "James Harden", "Kaitlyn Dever",
-          "Tinashe", "Fresh Foam", "Off-White", "Kith", "Supreme", "Yeezy", "Fear of God", "Travis Scott", "Comme des Garçons",
-          "Bape", "Stüssy", "Cactus Jack", "Cactus Plant Flea Market", "Union", "Dior",]
+celebs = ['Supreme', 'Prada', 'Migos', 'Gucci', 'Vetements', 'Maison Margiela', 'Kobe Bryant', 'Cardi B', 'Stüssy',
+ 'Balenciaga', 'Vivienne Westwood', 'Stone Island', 'Odell Beckham Jr.', "Puma's LaMelo Ball", 'Off-White', 'Versace',
+ 'One Star', 'Fenty', 'J Balvin', 'Comme des Garçons', 'Marcelo Burlon', 'Chanel', 'Selena Gomez', 'Nigo', 'Fendi',
+ 'G-Dragon', 'Cactus Jack', 'Bad Bunny', 'Travis Scott', 'Bella Hadid', 'Gigi Hadid', 'Fresh Foam', 'Kanye West',
+ 'Teyana Taylor', 'Valentino', 'Dolce & Gabbana', 'Michael Jordan', 'Big Sean', 'Yves Saint Laurent', 'Givenchy',
+ 'Kaitlyn Dever', 'Beyoncé', 'Rick Owens', 'A$AP Rocky', 'Ariana Grande', 'Donald Glover', 'Tinker Hatfield',
+ 'Justin Timberlake', 'Balmain', 'Sabrina', 'Yeezy', 'Dame D.O.L.L.A.', 'Rihanna', 'Kylie Jenner', 'Burberry',
+ 'Serena Williams', 'Dior', 'Kendall Jenner', 'Dwayne Johnson', 'Alexander McQueen', 'J Cole', 'Fabolous', 'Lil Nas X',
+ 'Hermès', 'Tyler the Creator', 'Bape', 'Cactus Plant Flea Market', 'Kendrick Lamar', 'Union', 'Kenzo', 'Drake',
+ 'Louis Vuitton', 'Kith', 'A-Cold-Wall*', 'Snoop Dogg', 'Moncler', 'Fear of God', 'James Harden', 'Pharrell Williams',
+ 'Post Malone', 'Acne Studios', 'Thom Browne', 'Tinashe']
 
 #check if there is a collaboration in the sneaker name
 def extract_collaboration(sneaker_name):

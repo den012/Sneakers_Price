@@ -16,9 +16,9 @@ from release_date_model.graph import *
 #
 # detect_brands('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
 #
-# number, sneakers_with_collab = add_collaboration('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
-# print(number)
-# print(f"Processed {len(sneakers_with_collab)}")
+number, sneakers_with_collab = add_collaboration('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
+print(number)
+print(f"Processed {len(sneakers_with_collab)}")
 #
 # fix_sneaker_discount('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
 
@@ -41,9 +41,9 @@ from release_date_model.graph import *
 # update_release_dates('testing_steps/sneakers_data.json', 'testing_steps/data_predicted.json', 'testing_steps/sneakers_data.json')
 
 #draw graph
-models_mse = {
-        'XGBoost': (None, 32.033138721185516),
-        'Linear Regression': (None, 32.429062066651895),
-        'Decision Tree': (None, 32.0331386834529)
-    }
-plot_model_accuracies(models_mse)
+# models_mse = {
+#         'XGBoost': (None, 32.033138721185516),
+#         'Linear Regression': (None, 32.429062066651895),
+#         'Decision Tree': (None, 32.0331386834529)
+#     }
+# plot_model_accuracies(models_mse)
