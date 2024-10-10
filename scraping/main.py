@@ -5,9 +5,10 @@ from functions.detect_collab import celebs, add_collaboration
 from functions.detect_sneaker_dicount_tag import fix_sneaker_discount
 from release_date_model.filter_data import *
 from release_date_model.merge_to_dataset import *
-from release_date_model.release_pipeline import *
+from release_date_model.model import *
 from release_date_model.graph import *
-
+from retail_price_model.model import *
+from retail_price_model.parsing_data import *
 
 # scraped_sneakers = scrape_sneakers('sneakers', 'testing_steps/sneakers_data.json')
 # print(f"Scraped {len(scraped_sneakers)}")
@@ -19,9 +20,13 @@ from release_date_model.graph import *
 # number, sneakers_with_collab = add_collaboration('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
 # print(number)
 # print(f"Processed {len(sneakers_with_collab)}")
-#
+
 # fix_sneaker_discount('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
 
+
+
+
+# RELEASE DATE
 #prepare data for model
 # refractor_data('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
 
@@ -46,5 +51,22 @@ from release_date_model.graph import *
 #         'Linear Regression': (None, 32.429062066651895),
 #         'Decision Tree': (None, 32.0331386834529)
 #     }
+# plot_model_accuracies(models_mse)
+
+
+
+# RETAIL PRICE
+# clean_dataset('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
+
+# get_test_train_data('testing_steps/sneakers_data.json', 'testing_steps/train_data.json', 'testing_steps/test_data.json')
+# get_prediction_data('testing_steps/sneakers_data.json', 'testing_steps/data_to_predict.json')
+# predict_data()
+# merge_predictions('testing_steps/sneakers_data.json', 'testing_steps/data_predicted.json', 'testing_steps/sneakers_data.json')
+# fix_sneaker_discount('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
+
+# models_mse = {
+#     'XGBoost': (None, 5947.73809333461),
+#     'Linear Regression': (None, 7124.420804015324)
+# }
 # plot_model_accuracies(models_mse)
 
