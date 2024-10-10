@@ -5,7 +5,7 @@ from functions.detect_collab import celebs, add_collaboration
 from functions.detect_sneaker_dicount_tag import fix_sneaker_discount
 from release_date_model.filter_data import *
 from release_date_model.merge_to_dataset import *
-from release_date_model.pipeline import *
+from release_date_model.release_pipeline import *
 from release_date_model.graph import *
 
 

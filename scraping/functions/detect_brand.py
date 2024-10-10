@@ -16,6 +16,18 @@ brand_map = {
     "Fear of God": "Nike", "Waffle One": "Nike", "ISPA": "Nike", "Court Vision": "Nike",
     "Sb" : "Nike", "Lunar" : "Nike",
 
+    "Alexander McQueen" : "Alexander McQueen",
+    "Balenciaga" : "Balenciaga",
+    "Converse" : "Converse",
+    "Fila" : "Fila",
+    "Givenchy" : "Givenchy",
+    "Gucci" : "Gucci",
+    "Lanvin" : "Lanvin",
+    "Louis Vuitton" : "Louis Vuitton",
+    "Maison Margiela" : "Maison Margiela",
+    "Off-White" : "Off-White",
+    "Prada" : "Prada",
+
     # Adidas
     "UltraBoost": "Adidas", "Yeezy": "Adidas", "NMD": "Adidas", "Superstar": "Adidas",
     "Stan Smith": "Adidas", "Gazelle": "Adidas", "Samba": "Adidas", "Adizero": "Adidas",
