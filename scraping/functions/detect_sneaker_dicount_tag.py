@@ -1,6 +1,4 @@
 import json
-from contextlib import nullcontext
-
 
 def fix_sneaker_discount(input_file, output_file):
     with open(input_file, 'r', encoding = 'utf-8') as file:

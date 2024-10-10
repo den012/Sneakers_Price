@@ -14,7 +14,6 @@ celebs = ['Supreme', 'Prada', 'Migos', 'Gucci', 'Vetements', 'Maison Margiela', 
  'Louis Vuitton', 'Kith', 'A-Cold-Wall*', 'Snoop Dogg', 'Moncler', 'Fear of God', 'James Harden', 'Pharrell Williams',
  'Post Malone', 'Acne Studios', 'Thom Browne', 'Tinashe']
 
-#check if there is a collaboration in the sneaker name
 def extract_collaboration(sneaker_name):
     colabs = []
     if ' x ' in sneaker_name:
@@ -29,7 +28,6 @@ def extract_collaboration(sneaker_name):
                 colabs.append(celeb)
     return ', '.join(colabs)
 
-#create a column fro collaborations
 def add_collaboration(input_file = 'sneakers_data.json', output_file = 'sneaker_data_v1.json'):
     count = 0
     with open(input_file, 'r', encoding = 'utf-8') as file:
