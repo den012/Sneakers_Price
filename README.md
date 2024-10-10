@@ -16,6 +16,10 @@ from functions.remove_rename_add_columns import remove_rename_add_data_cols
 from functions.detect_brand import detect_brands
 from functions.detect_collab import celebs, add_collaboration
 from functions.detect_sneaker_dicount_tag import fix_sneaker_discount
+from release_date_model.filter_data import *
+from release_date_model.merge_to_dataset import *
+from release_date_model.pipeline import *
+from release_date_model.graph import *
 ```
 ## Step 2
 Scrape goat.com website using requests.
@@ -47,50 +51,50 @@ fix_sneaker_discount('testing_steps/sneakers_data.json', 'testing_steps/sneakers
 ```
 
 ## Step 7
- prepare data for model
+Reformat the raw sneaker data for modeling
 ```py
 refractor_data('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
 ```
 
 ## Step 8
-get model data
+Extract relevant features for model training
 ```py
 get_data_for_model('testing_steps/sneakers_data.json', 'testing_steps/data_for_model.json')
 ```
 
 ## Step 9
-get training and testing data
+Split the data into training and testing sets
 ```py
 get_training_and_testing_data('testing_steps/data_for_model.json', 'testing_steps/train_data.json', 'testing_steps/test_data.json')
 ```
 
 ## Step 10
-get data to predict
+Prepare data for making predictions
 ```py
-# get_data_to_predict('testing_steps/sneakers_data.json', 'testing_steps/data_to_predict.json')
+get_data_to_predict('testing_steps/sneakers_data.json', 'testing_steps/data_to_predict.json')
 ```
 
 ## Step 11
-run the model and get predictions
+Run the model pipeline and generate predictions
 ```py
-# model_pipeline()
+model_pipeline()
 ```
 
 ## Step 12
-merge predictions with the original dataset
+Merge the predicted release dates back into the original dataset
 ```py
 update_release_dates('testing_steps/sneakers_data.json', 'testing_steps/data_predicted.json', 'testing_steps/sneakers_data.json')
 ```
 
 ## Step 13
-draw graph
-```
+Visualize model performance with a mean squared error (MSE) comparison
+```py
 models_mse = {
-     'XGBoost': (None, 32.033138721185516),
-     'Linear Regression': (None, 32.429062066651895),
-     'Decision Tree': (None, 32.0331386834529)
-     }
+        'XGBoost': (None, 32.033138721185516),
+        'Linear Regression': (None, 32.429062066651895),
+        'Decision Tree': (None, 32.0331386834529)
+    }
 plot_model_accuracies(models_mse)
 ```
 
-![graph](release_models.png)
+![model_comparison](date_model_comparison.png)
