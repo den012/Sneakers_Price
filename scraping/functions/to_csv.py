@@ -3,7 +3,7 @@ from pandas import json_normalize
 import json
 
 #load scraped data
-with open('../data/sneaker_collab_brand_fixed_discount.json', 'r') as file:
+with open('../testing_steps/sneakers_data.json', 'r') as file:
     data = json.load(file)
 
 normalized_data = json_normalize(data)
@@ -15,16 +15,17 @@ columns = [
         "sneaker_slug",
         "sneaker_color",
         "data.category",
-        "sneaker_release_date",
-        "sneaker_discount_tag",
-        "sneaker_box_condition",
-        "sneaker_condition",
-        "retail_price_euros",
-        "lowest_price_euros",
-        "instant_ship_price_euros",
-        "gp_lowest_price_euros",
-        "gp_instant_ship_price_euros",
         "discount_tag",
+        "box_condition",
+        "product_condition",
+        "retail_price_eur",
+        "lowest_price_eur",
+        "instant_ship_lowest_price_eur",
+        "gp_lowest_price_eur",
+        "gp_instant_ship_lowest_price_eur",
+        "release_year",
+        "release_month",
+        "release_day",
 ]
 
 #sort the columns for more readability
@@ -54,4 +55,4 @@ ordered_data = normalized_data[columns].copy()
 #     'data.gp_instant_ship_lowest_price_cents_224': 'gp_instant_ship_price_euros'
 # }, inplace=True)
 
-ordered_data.to_csv('test.json.csv', index = False)
+ordered_data.to_csv('sneakers_data', index = False)

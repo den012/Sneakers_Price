@@ -91,3 +91,4 @@ from ship_price_model.model import *
 #     'LightGBM Mean Squared Error': (None, 0.06862732570541646)
 # }
 # plot_model_accuracies(models_mse)
+
