@@ -9,6 +9,8 @@ from release_date_model.model import *
 from release_date_model.graph import *
 from retail_price_model.model import *
 from retail_price_model.parsing_data import *
+from ship_price_model.parsing_data import *
+from ship_price_model.model import *
 
 # scraped_sneakers = scrape_sneakers('sneakers', 'testing_steps/sneakers_data.json')
 # print(f"Scraped {len(scraped_sneakers)}")
@@ -70,3 +72,22 @@ from retail_price_model.parsing_data import *
 # }
 # plot_model_accuracies(models_mse)
 
+
+
+# SHIP PRICE
+# parse_model_data('testing_steps/sneakers_data.json', 'testing_steps/data_for_model.json')
+
+# get_training_testing_data('testing_steps/data_for_model.json', 'testing_steps/train_data.json', 'testing_steps/test_data.json')
+
+# get_data_to_predict('testing_steps/data_for_model.json', 'testing_steps/predict_data.json')
+
+# ship_predict_model()
+# merge_predicted_data('testing_steps/sneakers_data.json', 'testing_steps/data_predicted.json', 'testing_steps/sneakers_data.json')
+
+
+# models_mse = {
+#     'LinearRegression': (None,0.326401090451162),
+#     'XGBoost': (None,0.060621388905880313),
+#     'LightGBM Mean Squared Error': (None, 0.06862732570541646)
+# }
+# plot_model_accuracies(models_mse)

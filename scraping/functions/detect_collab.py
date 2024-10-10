@@ -1,7 +1,6 @@
 import json
 import re
 
-#create a list with celebrities that worked with shoe companies
 celebs = ["Sabrina", "Cardi B", "Pharrell Williams", "Kendrick Lamar", "Fenty", "Michael Jordan", "Travis Scott",
           "Donald Glover", "Bad Bunny", "Selena Gomez", "Big Sean", "Vivienne Westwood", "Serena Williams", "Gigi Hadid",
           "Kanye West", "One Star", "Justin Timberlake", "Rihanna", "Lil Nas X", "A$AP Rocky", "J Balvin", "Post Malone",
@@ -11,7 +10,6 @@ celebs = ["Sabrina", "Cardi B", "Pharrell Williams", "Kendrick Lamar", "Fenty", 
           "Tinashe", "Fresh Foam", "Off-White", "Kith", "Supreme", "Yeezy", "Fear of God", "Travis Scott", "Comme des Garçons",
           "Bape", "Stüssy", "Cactus Jack", "Cactus Plant Flea Market", "Union", "Dior",]
 
-#check if there is a collaboration in the sneaker name
 def extract_collaboration(sneaker_name):
     colabs = []
     if ' x ' in sneaker_name:
@@ -26,7 +24,6 @@ def extract_collaboration(sneaker_name):
                 colabs.append(celeb)
     return ', '.join(colabs)
 
-#create a column fro collaborations
 def add_collaboration(input_file = 'sneakers_data.json', output_file = 'sneaker_data_v1.json'):
     count = 0
     with open(input_file, 'r', encoding = 'utf-8') as file:

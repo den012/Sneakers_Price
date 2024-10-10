@@ -25,17 +25,20 @@ def prepare_data(data):
     df = df.dropna(subset=['instant_ship_lowest_price_eur', 'gp_instant_ship_lowest_price_eur'])
 
     # Define features and targets
-    X = df[['retail_price_eur', 'lowest_price_eur', 'gp_lowest_price_eur']]
+    X = df[['retail_price_eur', 'lowest_price_eur', 'gp_lowest_price_eur', 'collaboration']]
     y = df[['instant_ship_lowest_price_eur', 'gp_instant_ship_lowest_price_eur']]
 
     # Handle missing feature values
     imputer = SimpleImputer(strategy='mean')
     X_imputed = pd.DataFrame(imputer.fit_transform(X), columns=X.columns)
 
+    # One-hot encode the collaboration column
+    X_encoded = pd.get_dummies(X_imputed, columns=['collaboration'], drop_first=True)
+
     # Optionally log-transform y (if target is skewed)
     y_log = np.log1p(y)  # Can comment/uncomment depending on data distribution
 
-    return X_imputed, y_log  # You can return y_log for better predictions
+    return X_encoded, y_log  # You can return y_log for better predictions
 
 # Train and evaluate models
 def train_model(X, y):
@@ -102,18 +105,17 @@ def predict_missing_values(model, data):
     df = pd.DataFrame(data)
 
     # Features for prediction
-    X_predict = df[['retail_price_eur', 'lowest_price_eur', 'gp_lowest_price_eur']]
+    X_predict = df[['retail_price_eur', 'lowest_price_eur', 'gp_lowest_price_eur', 'collaboration']]
 
     # Impute and scale
     imputer = SimpleImputer(strategy='mean')
-    scaler = StandardScaler()
+    X_predict = pd.DataFrame(imputer.fit_transform(X_predict), columns=X_predict.columns)
+
+    # One-hot encode
+    X_predict = pd.get_dummies(X_predict, columns=['collaboration'], drop_first=True)
 
     # Ensure missing values are handled before prediction
-    X_predict = pd.DataFrame(imputer.fit_transform(X_predict), columns=X_predict.columns)
-    X_predict_scaled = pd.DataFrame(scaler.fit_transform(X_predict), columns=X_predict.columns)
-
-    # Make predictions
-    predictions = model.predict(X_predict_scaled)
+    predictions = model.predict(X_predict)
 
     # Reverse log-transform if applied
     predictions = np.expm1(predictions)  # Uncomment if y was log-transformed during training
@@ -124,11 +126,11 @@ def predict_missing_values(model, data):
     return df
 
 # Main function
-def main():
-    train_file = '../testing_steps/release_date_help/train_data.json'
-    test_file = '../testing_steps/release_date_help/test_data.json'
-    predict_file = '../testing_steps/predict_data.json'
-    output_file = '../testing_steps/release_date_help/data_predicted.json'
+def ship_predict_model():
+    train_file = 'testing_steps/train_data.json'
+    test_file = 'testing_steps/test_data.json'
+    predict_file = 'testing_steps/predict_data.json'
+    output_file = 'testing_steps/data_predicted.json'
 
     train_data = load_data(train_file)
     test_data = load_data(test_file)
@@ -152,5 +154,3 @@ def main():
     df_predicted.to_json(output_file, orient='records', indent=4)
     print(f'Predictions saved to {output_file}')
 
-if __name__ == "__main__":
-    main()
