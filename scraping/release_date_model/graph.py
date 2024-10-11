@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def plot_model_accuracies(models_mse):
+def plot_model_accuracies(models_mse, title):
     # Extract model names and their corresponding MSE values
     model_names = list(models_mse.keys())
     mse_values = [mse for _, mse in models_mse.values()]
@@ -14,7 +14,7 @@ def plot_model_accuracies(models_mse):
     barplot = sns.barplot(x=model_names, y=mse_values, hue=model_names, palette="viridis", legend=False)
 
     # Add title and labels
-    plt.title('Model Accuracies (MSE)', fontsize=16)
+    plt.title(title, fontsize=16, fontdict={'weight' : 'bold'})
     plt.xlabel('Models', fontsize=14)
     plt.ylabel('Mean Squared Error (MSE)', fontsize=14)
 

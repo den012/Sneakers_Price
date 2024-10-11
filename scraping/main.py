@@ -48,12 +48,12 @@ from ship_price_model.model import *
 # update_release_dates('testing_steps/sneakers_data.json', 'testing_steps/data_predicted.json', 'testing_steps/sneakers_data.json')
 
 #draw graph
-# models_mse = {
-#         'XGBoost': (None, 32.033138721185516),
-#         'Linear Regression': (None, 32.429062066651895),
-#         'Decision Tree': (None, 32.0331386834529)
-#     }
-# plot_model_accuracies(models_mse)
+models_mse = {
+        'XGBoost': (None, 32.033138721185516),
+        'Linear Regression': (None, 32.429062066651895),
+        'Decision Tree': (None, 32.0331386834529)
+    }
+plot_model_accuracies(models_mse, 'Release Date Model MSE Scores')
 
 
 
@@ -66,11 +66,11 @@ from ship_price_model.model import *
 # merge_predictions('testing_steps/sneakers_data.json', 'testing_steps/data_predicted.json', 'testing_steps/sneakers_data.json')
 # fix_sneaker_discount('testing_steps/sneakers_data.json', 'testing_steps/sneakers_data.json')
 
-# models_mse = {
-#     'XGBoost': (None, 5947.73809333461),
-#     'Linear Regression': (None, 7124.420804015324)
-# }
-# plot_model_accuracies(models_mse)
+models_mse = {
+    'XGBoost': (None, 5947.73809333461),
+    'Linear Regression': (None, 7124.420804015324)
+}
+plot_model_accuracies(models_mse, 'Retail Price Model MSE Scores')
 
 
 
@@ -85,10 +85,10 @@ from ship_price_model.model import *
 # merge_predicted_data('testing_steps/sneakers_data.json', 'testing_steps/data_predicted.json', 'testing_steps/sneakers_data.json')
 
 
-# models_mse = {
-#     'LinearRegression': (None,0.326401090451162),
-#     'XGBoost': (None,0.060621388905880313),
-#     'LightGBM Mean Squared Error': (None, 0.06862732570541646)
-# }
-# plot_model_accuracies(models_mse)
+models_mse = {
+    'LinearRegression': (None,0.326401090451162),
+    'XGBoost': (None,0.060621388905880313),
+    'LightGBM Mean Squared Error': (None, 0.06862732570541646)
+}
+plot_model_accuracies(models_mse, 'Shippping Price Model MSE Scores')
 
