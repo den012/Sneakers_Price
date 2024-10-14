@@ -8,6 +8,8 @@ def parse_model_data(input_file, output_file):
     for sneaker in data:
         sneaker_dict = {
             "sneaker_name": sneaker.get("sneaker_name"),
+            "sneaker_brand": sneaker.get("sneaker_brand"),
+            "release_year": sneaker.get("release_year"),
             "collaboration": sneaker.get("collaboration"),
             "retail_price_eur": sneaker.get("retail_price_eur"),
             "lowest_price_eur": sneaker.get("lowest_price_eur"),

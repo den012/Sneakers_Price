@@ -1,86 +1,134 @@
-import json
 import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import mean_squared_error, r2_score
-import xgboost as xgb
+import json
+from sklearn.preprocessing import LabelEncoder
+from sklearn.cluster import KMeans
 from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
+import xgboost as xgb
+from sklearn.model_selection import TimeSeriesSplit
+from sklearn.metrics import mean_absolute_error
 
+# Step 1: Load and Preprocess the Data
+def load_and_preprocess_data(json_file):
+    with open(json_file, 'r') as f:
+        data = json.load(f)
 
-# Load data from JSON files
-def load_data(file_path):
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-    return pd.DataFrame(data)
+    # Convert to DataFrame
+    df = pd.DataFrame(data)
 
+    # Fill missing values
+    df.fillna(0, inplace=True)
 
-# Prepare the data for modeling
-def prepare_data(df):
-    X = df[['release_year', 'lowest_price_eur', 'collaboration']]
-    y = df['retail_price_eur']
-    return X, y
+    # Encode categorical variables
+    label_encoder = LabelEncoder()
+    df['collaboration'] = label_encoder.fit_transform(df['collaboration'])
+    df['sneaker_brand'] = label_encoder.fit_transform(df['sneaker_brand'])
+    df['sneaker_color'] = label_encoder.fit_transform(df['sneaker_color'])
 
+    return df
 
-# Train and evaluate the XGBoost model
-def train_and_evaluate_xgboost(X_train, y_train, X_test, y_test):
-    param_grid = {
-        'n_estimators': [100, 200],
-        'max_depth': [3, 5, 7],
-        'learning_rate': [0.01, 0.1, 0.2]
-    }
+def apply_clustering(df, clustering_features):
+    kmeans = KMeans(n_clusters=2, random_state=42)
+    df['cluster'] = kmeans.fit_predict(df[clustering_features])
+    return df, kmeans
 
-    xgb_model = xgb.XGBRegressor(objective='reg:squarederror')
+# Step 3: Train the Models with Time Series Cross-Validation
+# python
+def train_models(df, features, target):
+    models = {'high_end': {}, 'regular': {}}
 
-    grid_search = GridSearchCV(xgb_model, param_grid, scoring='neg_mean_squared_error', cv=5)
-    grid_search.fit(X_train, y_train)
+    # Split data into high-end and regular clusters
+    high_end = df[df['cluster'] == 1]
+    regular = df[df['cluster'] == 0]
 
-    best_model = grid_search.best_estimator_
-    xgb_pred = best_model.predict(X_test)
-    xgb_mse = mean_squared_error(y_test, xgb_pred)
-    print(f'XGBoost Mean Squared Error: {xgb_mse}, R²: {r2_score(y_test, xgb_pred)}')
-    return best_model, xgb_mse
+    # Initialize TimeSeriesSplit
+    tscv = TimeSeriesSplit(n_splits=5)
 
+    # Train XGBoost and Linear Regression for high-end sneakers
+    xgb_model_high = xgb.XGBRegressor(objective='reg:squarederror', random_state=42)
+    lin_model_high = LinearRegression()
+    for train_index, test_index in tscv.split(high_end):
+        X_train, X_test = high_end[features].iloc[train_index], high_end[features].iloc[test_index]
+        y_train, y_test = high_end[target].iloc[train_index], high_end[target].iloc[test_index]
 
-# Train and evaluate the Linear Regression model
-def train_and_evaluate_linear_regression(X_train, y_train, X_test, y_test):
-    lr_model = LinearRegression()
-    lr_model.fit(X_train, y_train)
-    lr_pred = lr_model.predict(X_test)
-    lr_mse = mean_squared_error(y_test, lr_pred)
-    print(f'Linear Regression Mean Squared Error: {lr_mse}, R²: {r2_score(y_test, lr_pred)}')
-    return lr_model, lr_mse
+        xgb_model_high.fit(X_train, y_train)
+        lin_model_high.fit(X_train, y_train)
 
+        y_pred_xgb = xgb_model_high.predict(X_test)
+        y_pred_lin = lin_model_high.predict(X_test)
+        print("High-end MAE (XGBoost):", mean_absolute_error(y_test, y_pred_xgb))
+        print("High-end MAE (Linear Regression):", mean_absolute_error(y_test, y_pred_lin))
 
-# Main function
-def predict_data():
-    train_file = 'testing_steps/train_data.json'
-    test_file = 'testing_steps/test_data.json'
-    predict_file = 'testing_steps/data_to_predict.json'
+    models['high_end']['xgb'] = xgb_model_high
+    models['high_end']['lin'] = lin_model_high
 
-    # Load data
-    train_data = load_data(train_file)
-    test_data = load_data(test_file)
-    predict_data = load_data(predict_file)
+    # Train XGBoost and Linear Regression for regular sneakers
+    xgb_model_reg = xgb.XGBRegressor(objective='reg:squarederror', random_state=42)
+    lin_model_reg = LinearRegression()
+    for train_index, test_index in tscv.split(regular):
+        X_train, X_test = regular[features].iloc[train_index], regular[features].iloc[test_index]
+        y_train, y_test = regular[target].iloc[train_index], regular[target].iloc[test_index]
 
-    # Prepare training and testing data
-    X_train, y_train = prepare_data(train_data)
-    X_test, y_test = prepare_data(test_data)
+        xgb_model_reg.fit(X_train, y_train)
+        lin_model_reg.fit(X_train, y_train)
 
-    # Train and evaluate the models
-    best_model, xgb_mse = train_and_evaluate_xgboost(X_train, y_train, X_test, y_test)
-    lr_model, lr_mse = train_and_evaluate_linear_regression(X_train, y_train, X_test, y_test)
+        y_pred_xgb = xgb_model_reg.predict(X_test)
+        y_pred_lin = lin_model_reg.predict(X_test)
+        print("Regular MAE (XGBoost):", mean_absolute_error(y_test, y_pred_xgb))
+        print("Regular MAE (Linear Regression):", mean_absolute_error(y_test, y_pred_lin))
 
-    # Prepare prediction data
-    X_predict = predict_data[['release_year', 'lowest_price_eur', 'collaboration']]
-    predictions = best_model.predict(X_predict)
+    models['regular']['xgb'] = xgb_model_reg
+    models['regular']['lin'] = lin_model_reg
 
-    # Overwrite retail_price_eur with predictions
-    predict_data['retail_price_eur'] = predictions
+    return models
 
-    # Save predictions to JSON file
-    output_file = 'testing_steps/predictions.json'
-    predict_data.to_json(output_file, orient='records', indent=4)
-    print(f'Predictions saved to {output_file}')
+def predict_retail_price(df, kmeans, models, features):
+    predictions = []
+    clustering_features = ['lowest_price_eur']  # Only include clustering features used for KMeans
+
+    for _, row in df.iterrows():
+        # Create a DataFrame for the clustering feature
+        cluster_feature_df = pd.DataFrame([row[clustering_features].values], columns=clustering_features)
+        cluster = kmeans.predict(cluster_feature_df)[0]
+
+        # Create a DataFrame for the feature values to preserve feature names
+        feature_df = pd.DataFrame([row[features].values], columns=features)
+
+        if cluster == 0:
+            model_xgb = models['regular']['xgb']
+            model_lin = models['regular']['lin']
+        else:
+            model_xgb = models['high_end']['xgb']
+            model_lin = models['high_end']['lin']
+
+        prediction_xgb = model_xgb.predict(feature_df)
+        prediction_lin = model_lin.predict(feature_df)
+        # Average the predictions from both models
+        prediction = (prediction_xgb[0] + prediction_lin[0]) / 2
+        predictions.append(prediction)
+
+    return predictions
+
+def retail_model():
+    # Define the features and target
+    features = ['collaboration', 'sneaker_brand', 'sneaker_color', 'release_year', 'lowest_price_eur']
+    clustering_features = ['lowest_price_eur']
+    target = 'retail_price_eur'
+
+    # Step 1: Load and preprocess training data
+    df = load_and_preprocess_data('testing_steps/retail_price_help/train_data.json')
+
+    # Step 2: Apply K-Means clustering
+    df, kmeans = apply_clustering(df, clustering_features)
+
+    # Step 3: Train models with time series cross-validation
+    models = train_models(df, features, target)
+
+    # Step 4: Load new sneaker data for predictions
+    new_sneakers_df = load_and_preprocess_data('testing_steps/retail_price_help/data_to_predict.json')
+
+    # Step 5: Predict retail prices for new sneakers
+    new_sneakers_df['retail_price_eur'] = predict_retail_price(new_sneakers_df, kmeans, models, features)
+
+    # Step 6: Save predictions to JSON
+    new_sneakers_df.to_json('predicted_sneakers.json', orient='records', indent=4)
+

@@ -14,51 +14,34 @@ def clean_dataset(input_file, output_file):
         json.dump(cleaned_data, file, indent=4)
 
 
-def get_prediction_data(input_file, output_file):
-    with open(input_file, 'r') as file:
-        data = json.load(file)
-
-    model_data = []
-    for sneaker in data:
-        if sneaker.get('retail_price_eur') == 0.0:
-            model_data.append({
-                'sneaker_name' : sneaker.get('sneaker_name'),
-                'collaboration' : sneaker.get('collaboration'),
-                'release_year' : sneaker.get('release_year'),
-                'lowest_price_eur' : sneaker.get('lowest_price_eur'),
-                'retail_price_eur': sneaker.get('retail_price_eur')
-            })
-
-    print(f'found {len(model_data)}')
-    with open(output_file, 'w') as file:
-        json.dump(model_data, file, indent=4)
-
-def get_test_train_data(input_file, train_output_file, test_output_file):
+def get_test_train_data(input_file, train_output_file, predict_output):
     with open(input_file, 'r') as file:
         data = json.load(file)
 
     training_data = []
+    predict_data = []
     for sneaker in data:
+        sneaker_dict = {
+            'sneaker_name': sneaker.get('sneaker_name'),
+            'collaboration': sneaker.get('collaboration'),
+            'sneaker_brand': sneaker.get('sneaker_brand'),
+            'sneaker_color': sneaker.get('sneaker_color'),
+            'release_year': sneaker.get('release_year'),
+            'lowest_price_eur': sneaker.get('lowest_price_eur'),
+            'retail_price_eur': sneaker.get('retail_price_eur')
+        }
         if sneaker.get('retail_price_eur') != 0.0:
-            training_data.append({
-                'sneaker_name': sneaker.get('sneaker_name'),
-                'collaboration': sneaker.get('collaboration'),
-                'release_year': sneaker.get('release_year'),
-                'lowest_price_eur': sneaker.get('lowest_price_eur'),
-                'retail_price_eur': sneaker.get('retail_price_eur')
-            })
+            training_data.append(sneaker_dict)
+        else:
+            predict_data.append(sneaker_dict)
 
-    print(f"Number of sneakers meeting the condition: {len(training_data)}")
-
-    split_index = int(len(training_data) * 0.75)
-    train_data = training_data[:split_index]
-    test_data = training_data[split_index:]
+    print(f"Number of test/train snkrs: {len(training_data)}")
+    print(f"Number of predict snkrs: {len(predict_data)}")
 
     with open(train_output_file, 'w') as file:
-        json.dump(train_data, file, indent=4)
-
-    with open(test_output_file, 'w') as file:
-        json.dump(test_data, file, indent=4)
+        json.dump(training_data, file, indent=4)
+    with open(predict_output, 'w') as file:
+        json.dump(predict_data, file, indent=4)
 
 def merge_predicted_data(original_file, predicted_file, output_file):
     with open(original_file, 'r') as file:

@@ -12,7 +12,12 @@ celebs = ['Supreme', 'Prada', 'Migos', 'Gucci', 'Vetements', 'Maison Margiela', 
  'Serena Williams', 'Dior', 'Kendall Jenner', 'Dwayne Johnson', 'Alexander McQueen', 'J Cole', 'Fabolous', 'Lil Nas X',
  'Hermès', 'Tyler the Creator', 'Bape', 'Cactus Plant Flea Market', 'Kendrick Lamar', 'Union', 'Kenzo', 'Drake',
  'Louis Vuitton', 'Kith', 'A-Cold-Wall*', 'Snoop Dogg', 'Moncler', 'Fear of God', 'James Harden', 'Pharrell Williams',
- 'Post Malone', 'Acne Studios', 'Thom Browne', 'Tinashe']
+ 'Post Malone', 'Acne Studios', 'Thom Browne', 'Tinashe', 'Kaws', 'Kiko Kostadinov', 'Jerry Lorenzo', 'Karl Lagerfeld',
+ 'Kith x Coca-Cola', 'Kith x Looney Tunes', 'Kith x Power Rangers', 'Kith x Rugrats', 'Kith x Versace', 'Kith x Vogue', 'Kith',
+'KD', 'Kyrie', 'LeBron', 'PG', 'Kobe', 'Hello Kitty', 'SpongeBob SquarePants', 'Patrick Star', 'Sandy Cheeks', 'Mr. Krabs',
+'Ambush', 'JFS', 'F.C.R.B', 'Union LA', 'GOODENOUGH', 'mita', 'Saquon Barkley', 'Livestrong', 'Kevin Bradley', 'CNCPTS',
+'Undercover',
+]
 
 def extract_collaboration(sneaker_name):
     colabs = []
