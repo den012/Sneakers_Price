@@ -4,17 +4,13 @@ import json
 
 
 def remove_rename_add_data_cols(json_file):
-    #load data
     with open(json_file, 'r') as file:
         data = json.load(file)
 
-    # Normalize JSON
     normalized_data = json_normalize(data)
 
-    # Define the columns to keep
     columns = [
         "value",
-        #added by me
         "sneaker_brand",
         "collaboration",
         "collaboration_name",
@@ -26,7 +22,7 @@ def remove_rename_add_data_cols(json_file):
         "data.discount_tag",
         "data.box_condition",
         "data.product_condition",
-        #price columns
+
         "data.retail_price_cents",
         "data.lowest_price_cents",
         "data.instant_ship_lowest_price_cents",
@@ -34,14 +30,12 @@ def remove_rename_add_data_cols(json_file):
         "data.gp_instant_ship_lowest_price_cents_224",
     ]
 
-    #adding missing columns
     for column in columns:
         if column not in normalized_data.columns:
             normalized_data[column] = pd.NA
 
     ordered_data = normalized_data[columns].copy()
 
-    # define price columns
     price_columns = [
         "data.retail_price_cents",
         "data.lowest_price_cents",
@@ -50,12 +44,10 @@ def remove_rename_add_data_cols(json_file):
         "data.gp_instant_ship_lowest_price_cents_224",
     ]
 
-    # convert price to euro
     for column in price_columns:
         if column in ordered_data.columns:
             ordered_data[column] = pd.to_numeric(ordered_data[column], errors='coerce') / 100
 
-    # Rename columns for more readability
     ordered_data.rename(columns={
         "value" : "sneaker_name",
         "data.slug" : "sneaker_slug",
@@ -73,7 +65,6 @@ def remove_rename_add_data_cols(json_file):
         "data.gp_instant_ship_lowest_price_cents_224" : "gp_instant_ship_lowest_price_eur",
     }, inplace=True)
 
-    #overwrite the json file
     with open(json_file, 'w') as file:
         json.dump(json.loads(ordered_data.to_json(orient='records')), file, indent=4)
 

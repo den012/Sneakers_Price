@@ -36,9 +36,9 @@ def update_release_dates(input_file, predicted_data_file, output_file):
         if sneaker.get('release_date') is None:
             predicted_sneaker = predicted_dict.get(sneaker['sneaker_name'])
             if predicted_sneaker:
-                sneaker['release_year'] = predicted_sneaker.get('release_year')
-                sneaker['release_month'] = predicted_sneaker.get('release_month')
-                sneaker['release_day'] = predicted_sneaker.get('release_day')
+                sneaker['release_year'] = int(predicted_sneaker.get('release_year', 0))
+                sneaker['release_month'] = int(predicted_sneaker.get('release_month', 0))
+                sneaker['release_day'] = int(predicted_sneaker.get('release_day', 0))
         if 'release_date' in sneaker:
             del sneaker['release_date']
     # Save the updated dataset to a new JSON file

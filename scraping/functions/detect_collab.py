@@ -12,9 +12,13 @@ celebs = ['Supreme', 'Prada', 'Migos', 'Gucci', 'Vetements', 'Maison Margiela', 
  'Serena Williams', 'Dior', 'Kendall Jenner', 'Dwayne Johnson', 'Alexander McQueen', 'J Cole', 'Fabolous', 'Lil Nas X',
  'Hermès', 'Tyler the Creator', 'Bape', 'Cactus Plant Flea Market', 'Kendrick Lamar', 'Union', 'Kenzo', 'Drake',
  'Louis Vuitton', 'Kith', 'A-Cold-Wall*', 'Snoop Dogg', 'Moncler', 'Fear of God', 'James Harden', 'Pharrell Williams',
- 'Post Malone', 'Acne Studios', 'Thom Browne', 'Tinashe']
+ 'Post Malone', 'Acne Studios', 'Thom Browne', 'Tinashe', 'Kaws', 'Kiko Kostadinov', 'Jerry Lorenzo', 'Karl Lagerfeld',
+ 'Kith x Coca-Cola', 'Kith x Looney Tunes', 'Kith x Power Rangers', 'Kith x Rugrats', 'Kith x Versace', 'Kith x Vogue', 'Kith',
+'KD', 'Kyrie', 'LeBron', 'PG', 'Kobe', 'Hello Kitty', 'SpongeBob SquarePants', 'Patrick Star', 'Sandy Cheeks', 'Mr. Krabs',
+'Ambush', 'JFS', 'F.C.R.B', 'Union LA', 'GOODENOUGH', 'mita', 'Saquon Barkley', 'Livestrong', 'Kevin Bradley', 'CNCPTS',
+'Undercover',
+]
 
-#check if there is a collaboration in the sneaker name
 def extract_collaboration(sneaker_name):
     colabs = []
     if ' x ' in sneaker_name:
@@ -29,7 +33,6 @@ def extract_collaboration(sneaker_name):
                 colabs.append(celeb)
     return ', '.join(colabs)
 
-#create a column fro collaborations
 def add_collaboration(input_file = 'sneakers_data.json', output_file = 'sneaker_data_v1.json'):
     count = 0
     with open(input_file, 'r', encoding = 'utf-8') as file:

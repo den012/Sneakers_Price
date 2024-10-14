@@ -14,7 +14,27 @@ brand_map = {
     "Daybreak": "Nike", "Waffle": "Nike", "Killshot": "Nike", "FlyEase": "Nike",
     "React Element": "Nike", "Roshe": "Nike", "Crater": "Nike", "SFB": "Nike",
     "Fear of God": "Nike", "Waffle One": "Nike", "ISPA": "Nike", "Court Vision": "Nike",
-    "Sb" : "Nike", "Lunar" : "Nike",
+    "Sb" : "Nike", "Lunar" : "Nike", "Vandal" : "Nike", "NikeCourt" : "Nike",
+    "JA" : "Nike", "KD" : "Nike", "Kyrie" : "Nike", "PG" : "Nike", "Book 1" : "Nike",
+    "P-600" : "Nike", "WMNS" : "Nike", "Tanjun" : "Nike", "Revolution" : "Nike",
+    "Stussy" : "Nike",
+
+    "Bottega Veneta" : "Bottega Veneta",
+    "Versace" : "Versace",
+    "Supreme" : "Supreme",
+    "Chanel" : "Chanel",
+    "Rick Owens" : "Rick Owens",
+    "Alexander McQueen" : "Alexander McQueen",
+    "Balenciaga" : "Balenciaga",
+    "Converse" : "Converse",
+    "Fila" : "Fila",
+    "Givenchy" : "Givenchy",
+    "Gucci" : "Gucci",
+    "Lanvin" : "Lanvin",
+    "Louis Vuitton" : "Louis Vuitton",
+    "Maison Margiela" : "Maison Margiela",
+    "Off-White" : "Off-White",
+    "Prada" : "Prada",
 
     # Adidas
     "UltraBoost": "Adidas", "Yeezy": "Adidas", "NMD": "Adidas", "Superstar": "Adidas",
@@ -72,15 +92,15 @@ def detect_brands(input_file, output_file):
     with open(input_file, 'r') as file:
         data = json.load(file)
 
-    count = 0
+    filtered_data = []
     for sneaker in data:
         name = sneaker.get('sneaker_name')
         brand = extract_brand(name)
         if str(brand) != "N/A":
-            count += 1
-        sneaker['sneaker_brand'] = brand
+            sneaker['sneaker_brand'] = brand
+            filtered_data.append(sneaker)
 
     with open(output_file, 'w') as file:
-        json.dump(data, file, indent=4)
+        json.dump(filtered_data, file, indent=4)
 
-    print(count)
+    print(f"Filtered data saved with {len(filtered_data)} entries.")
