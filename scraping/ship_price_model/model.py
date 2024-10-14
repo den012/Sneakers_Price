@@ -1,156 +1,160 @@
 import json
 import pandas as pd
-from sklearn.multioutput import MultiOutputRegressor
+from sklearn.model_selection import TimeSeriesSplit
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler, RobustScaler
-from sklearn.pipeline import Pipeline
-import xgboost as xgb
-import lightgbm as lgb
-import numpy as np
+from xgboost import XGBRegressor
+from sklearn.metrics import mean_squared_error
 
-# Load data
-def load_data(file_path):
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-    return data
 
-# Prepare data
-def prepare_data(data):
-    df = pd.DataFrame(data)
+# Load data from JSON file
+def load_json_data(file_path):
+    with open(file_path) as f:
+        data = json.load(f)
+    return pd.DataFrame(data)
 
-    # Drop rows where target values are null
-    df = df.dropna(subset=['instant_ship_lowest_price_eur', 'gp_instant_ship_lowest_price_eur'])
 
-    # Define features and targets
-    X = df[['retail_price_eur', 'lowest_price_eur', 'gp_lowest_price_eur', 'collaboration']]
-    y = df[['instant_ship_lowest_price_eur', 'gp_instant_ship_lowest_price_eur']]
+# Prepare features and target for training or prediction (two cases)
+def prepare_data(df, target_column=None, target_type=None):
+    if target_type == 'instant_ship':
+        feature_columns = ['release_year', 'retail_price_eur', 'lowest_price_eur', 'collaboration']
+    elif target_type == 'gp_instant_ship':
+        feature_columns = ['release_year', 'retail_price_eur', 'gp_lowest_price_eur', 'collaboration']
 
-    # Handle missing feature values
-    imputer = SimpleImputer(strategy='mean')
-    X_imputed = pd.DataFrame(imputer.fit_transform(X), columns=X.columns)
+    X = df[feature_columns]
 
-    # One-hot encode the collaboration column
-    X_encoded = pd.get_dummies(X_imputed, columns=['collaboration'], drop_first=True)
+    if target_column:
+        y = df[target_column]
+        return X, y
 
-    # Optionally log-transform y (if target is skewed)
-    y_log = np.log1p(y)  # Can comment/uncomment depending on data distribution
+    return X  # For prediction
 
-    return X_encoded, y_log  # You can return y_log for better predictions
 
-# Train and evaluate models
-def train_model(X, y):
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+# Perform cross-time validation with MSE calculation
+def cross_time_validation_mse(model, X, y, n_splits=5):
+    tscv = TimeSeriesSplit(n_splits=n_splits)
+    mse_scores = []
 
-    models = {
-        'LinearRegression': MultiOutputRegressor(LinearRegression()),
-        'XGBoost': MultiOutputRegressor(xgb.XGBRegressor(objective='reg:squarederror')),
-        'LightGBM': MultiOutputRegressor(lgb.LGBMRegressor())
-    }
+    for train_index, test_index in tscv.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
 
-    best_model = None
-    best_mse = float('inf')
-
-    param_grids = {
-        'LinearRegression': {
-            'model__estimator__fit_intercept': [True, False]
-        },
-        'XGBoost': {
-            'model__estimator__learning_rate': [0.01, 0.1],
-            'model__estimator__n_estimators': [100, 300],
-            'model__estimator__max_depth': [3, 5],
-            'model__estimator__subsample': [0.8, 1.0]
-        },
-        'LightGBM': {
-            'model__estimator__num_leaves': [31, 127],
-            'model__estimator__learning_rate': [0.01, 0.1],
-            'model__estimator__n_estimators': [100, 200],
-            'model__estimator__min_child_samples': [20, 30]
-        }
-    }
-
-    for name, model in models.items():
-        # Create a pipeline with imputation, scaling, and model
-        pipeline = Pipeline([
-            ('imputer', SimpleImputer(strategy='mean')),
-            ('scaler', RobustScaler()),  # Try different scalers
-            ('model', model)
-        ])
-
-        # Perform Grid Search with Cross-Validation
-        grid_search = GridSearchCV(pipeline, param_grids.get(name, {}), cv=3, scoring='neg_mean_squared_error', n_jobs=-1)
-        grid_search.fit(X_train, y_train)
-
-        # Get the best model
-        best_pipeline = grid_search.best_estimator_
-        y_pred = best_pipeline.predict(X_test)
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
         mse = mean_squared_error(y_test, y_pred)
-        r2 = r2_score(y_test, y_pred)
-        mae = mean_absolute_error(y_test, y_pred)
-        print(f'{name} Mean Squared Error: {mse}')
-        print(f'{name} R² Score: {r2}')
-        print(f'{name} Mean Absolute Error: {mae}')
+        mse_scores.append(mse)
 
-        if mse < best_mse:
-            best_mse = mse
-            best_model = best_pipeline
+    return sum(mse_scores) / len(mse_scores)
 
-    print(f'Best model: {best_model}')
-    return best_model
 
-# Predict missing values
-def predict_missing_values(model, data):
-    df = pd.DataFrame(data)
+# Train models on the training data for both target variables
+def train_models(train_file):
+    df_train = load_json_data(train_file)
 
-    # Features for prediction
-    X_predict = df[['retail_price_eur', 'lowest_price_eur', 'gp_lowest_price_eur', 'collaboration']]
+    # Prepare data for instant_ship_lowest_price_eur prediction
+    X_instant, y_instant = prepare_data(df_train, target_column='instant_ship_lowest_price_eur',
+                                        target_type='instant_ship')
 
-    # Impute and scale
-    imputer = SimpleImputer(strategy='mean')
-    X_predict = pd.DataFrame(imputer.fit_transform(X_predict), columns=X_predict.columns)
+    # Prepare data for gp_instant_ship_lowest_price_eur prediction
+    X_gp_instant, y_gp_instant = prepare_data(df_train, target_column='gp_instant_ship_lowest_price_eur',
+                                              target_type='gp_instant_ship')
 
-    # One-hot encode
-    X_predict = pd.get_dummies(X_predict, columns=['collaboration'], drop_first=True)
+    # Initialize models for both cases
+    lr_instant_model = LinearRegression()
+    xgb_instant_model = XGBRegressor()
 
-    # Ensure missing values are handled before prediction
-    predictions = model.predict(X_predict)
+    lr_gp_instant_model = LinearRegression()
+    xgb_gp_instant_model = XGBRegressor()
 
-    # Reverse log-transform if applied
-    predictions = np.expm1(predictions)  # Uncomment if y was log-transformed during training
+    # Train models on the entire training data for instant_ship_lowest_price_eur
+    lr_instant_model.fit(X_instant, y_instant)
+    xgb_instant_model.fit(X_instant, y_instant)
 
-    # Assign predictions back to the DataFrame
-    df['instant_ship_lowest_price_eur'], df['gp_instant_ship_lowest_price_eur'] = predictions.T
+    # Train models on the entire training data for gp_instant_ship_lowest_price_eur
+    lr_gp_instant_model.fit(X_gp_instant, y_gp_instant)
+    xgb_gp_instant_model.fit(X_gp_instant, y_gp_instant)
 
-    return df
+    return {
+        'instant_lr_model': lr_instant_model,
+        'instant_xgb_model': xgb_instant_model,
+        'gp_instant_lr_model': lr_gp_instant_model,
+        'gp_instant_xgb_model': xgb_gp_instant_model
+    }
 
-# Main function
-def ship_predict_model():
-    train_file = 'testing_steps/train_data.json'
-    test_file = 'testing_steps/test_data.json'
-    predict_file = 'testing_steps/predict_data.json'
-    output_file = 'testing_steps/data_predicted.json'
 
-    train_data = load_data(train_file)
-    test_data = load_data(test_file)
-    predict_data = load_data(predict_file)
+def evaluate_models(test_file, models):
+    df_test = load_json_data(test_file)
 
-    X_train, y_train = prepare_data(train_data)
-    X_test, y_test = prepare_data(test_data)
+    # Prepare test data for instant_ship_lowest_price_eur
+    X_test_instant, y_test_instant = prepare_data(df_test, target_column='instant_ship_lowest_price_eur',
+                                                  target_type='instant_ship')
 
-    model = train_model(X_train, y_train)
+    # Prepare test data for gp_instant_ship_lowest_price_eur
+    X_test_gp_instant, y_test_gp_instant = prepare_data(df_test, target_column='gp_instant_ship_lowest_price_eur',
+                                                        target_type='gp_instant_ship')
 
-    # Evaluate the model on the test data
-    y_pred = model.predict(X_test)
-    mse = mean_squared_error(y_test, y_pred)
-    r2 = r2_score(y_test, y_pred)
-    mae = mean_absolute_error(y_test, y_pred)
-    print(f'Test Mean Squared Error: {mse}')
-    print(f'Test R² Score: {r2}')
-    print(f'Test Mean Absolute Error: {mae}')
+    # Get predictions and calculate MSE for Linear Regression (instant)
+    lr_instant_pred = models['instant_lr_model'].predict(X_test_instant)
+    lr_instant_mse = mean_squared_error(y_test_instant, lr_instant_pred)
 
-    df_predicted = predict_missing_values(model, predict_data)
-    df_predicted.to_json(output_file, orient='records', indent=4)
-    print(f'Predictions saved to {output_file}')
+    # Get predictions and calculate MSE for XGBoost (instant)
+    xgb_instant_pred = models['instant_xgb_model'].predict(X_test_instant)
+    xgb_instant_mse = mean_squared_error(y_test_instant, xgb_instant_pred)
 
+    # Get predictions and calculate MSE for Linear Regression (gp_instant)
+    lr_gp_instant_pred = models['gp_instant_lr_model'].predict(X_test_gp_instant)
+    lr_gp_instant_mse = mean_squared_error(y_test_gp_instant, lr_gp_instant_pred)
+
+    # Get predictions and calculate MSE for XGBoost (gp_instant)
+    xgb_gp_instant_pred = models['gp_instant_xgb_model'].predict(X_test_gp_instant)
+    xgb_gp_instant_mse = mean_squared_error(y_test_gp_instant, xgb_gp_instant_pred)
+
+    return {
+        'lr_instant_mse': lr_instant_mse,
+        'xgb_instant_mse': xgb_instant_mse,
+        'lr_gp_instant_mse': lr_gp_instant_mse,
+        'xgb_gp_instant_mse': xgb_gp_instant_mse
+    }
+
+
+# Predict the missing values in data-to-predict for both models and save the results
+def predict_missing_values(models, predict_file, output_file):
+    df_predict = load_json_data(predict_file)
+
+    # Prepare data for instant_ship_lowest_price_eur prediction
+    X_predict_instant = prepare_data(df_predict, target_type='instant_ship')
+
+    # Prepare data for gp_instant_ship_lowest_price_eur prediction
+    X_predict_gp_instant = prepare_data(df_predict, target_type='gp_instant_ship')
+
+    # Predict missing values for 'instant_ship_lowest_price_eur'
+    df_predict['instant_ship_lowest_price_eur'] = models['instant_xgb_model'].predict(X_predict_instant)
+
+    # Predict missing values for 'gp_instant_ship_lowest_price_eur'
+    df_predict['gp_instant_ship_lowest_price_eur'] = models['gp_instant_xgb_model'].predict(X_predict_gp_instant)
+
+    # Save the predicted data to a file (JSON)
+    df_predict.to_json(output_file, orient='records', indent=4)
+    print(f"Predicted data saved to {output_file}")
+
+
+# Main pipeline function
+def shipping_model():
+    train_file = 'testing_steps/ship_price_help/train_data.json'
+    test_file = 'testing_steps/ship_price_help/test_data.json'
+    predict_file = 'testing_steps/ship_price_help/data_to_predict.json'
+    output_file = 'testing_steps/ship_price_help/predicted_data.json'
+
+    # Train models for both targets
+    models = train_models(train_file)
+
+    # Evaluate models on test data
+    mse_values = evaluate_models(test_file, models)
+
+    # Print MSE values for both models
+    print(f"Linear Regression MSE on test data (instant_ship): {mse_values['lr_instant_mse']}")
+    print(f"XGBoost MSE on test data (instant_ship): {mse_values['xgb_instant_mse']}")
+    print(f"Linear Regression MSE on test data (gp_instant_ship): {mse_values['lr_gp_instant_mse']}")
+    print(f"XGBoost MSE on test data (gp_instant_ship): {mse_values['xgb_gp_instant_mse']}")
+
+    # Use the models (XGBoost in this case) to predict missing values
+    predict_missing_values(models, predict_file, output_file)
