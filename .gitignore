@@ -1,5 +1,6 @@
 #ignore large files
 *.json
 *.csv
+.DS_Store
 
 /data
