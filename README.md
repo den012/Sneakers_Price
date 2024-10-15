@@ -6,4 +6,7 @@ Documentation of my Final project
 
 Useful pages
 https://whimsical.com/U88m7uXKkKf9sbXyAWZN7D
+
 https://duckdb.org/
+
+[data_cleaning_journey](data_cleaning.png)
