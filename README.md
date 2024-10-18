@@ -11,4 +11,10 @@ https://duckdb.org/
 
 [data_cleaning_journey](data_cleaning.png)
 
-Baesian or frequontinste ? Why?
+Baesian(probability / distribution) or frequontinste (H0 for H1) ? Why?
+-Parametric 
+-Nonparametric
+
+big data -> freq
+
+
