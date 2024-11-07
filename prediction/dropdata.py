@@ -25,30 +25,11 @@ iqr_filtered_data = data[(data['instant_ship_lowest_price_eur'] >= lower_bound) 
 # Step 3: Plotting the Distribution
 plt.figure(figsize=(12, 6))
 
-# # Histogram
-# sns.histplot(iqr_filtered_data['lowest_price_eur'], bins=30, kde=True, color='blue', alpha=0.6)
-# plt.title('Distribution of Retail Prices (IQR Filtered, < 400 EUR)')
-# plt.xlabel('Retail Price (EUR)')
-# plt.ylabel('Frequency')
-# plt.grid()
-# plt.tight_layout()
-# plt.show()
-
 # Box Plot
 plt.figure(figsize=(12, 6))
 sns.boxplot(x=iqr_filtered_data['instant_ship_lowest_price_eur'], color='lightblue')
-plt.title('Box Plot of Retail Prices (IQR Filtered, < 400 EUR)')
-plt.xlabel('Retail Price (EUR)')
+plt.title('Out of bounds data')
+plt.xlabel('Price (EUR)')
 plt.grid()
 plt.tight_layout()
 plt.show()
-
-# # Kernel Density Estimate (KDE)
-# plt.figure(figsize=(12, 6))
-# sns.kdeplot(iqr_filtered_data['lowest_price_eur'], color='blue', fill=True, alpha=0.6)
-# plt.title('Kernel Density Estimate of Retail Prices (IQR Filtered, < 400 EUR)')
-# plt.xlabel('Retail Price (EUR)')
-# plt.ylabel('Density')
-# plt.grid()
-# plt.tight_layout()
-# plt.show()

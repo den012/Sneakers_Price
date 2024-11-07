@@ -1,0 +1,18 @@
+# # Kernel Density Estimate (KDE)
+# plt.figure(figsize=(12, 6))
+# sns.kdeplot(iqr_filtered_data['lowest_price_eur'], color='blue', fill=True, alpha=0.6)
+# plt.title('Kernel Density Estimate of Retail Prices (IQR Filtered, < 400 EUR)')
+# plt.xlabel('Retail Price (EUR)')
+# plt.ylabel('Density')
+# plt.grid()
+# plt.tight_layout()
+# plt.show()
+
+# # Histogram
+# sns.histplot(iqr_filtered_data['lowest_price_eur'], bins=30, kde=True, color='blue', alpha=0.6)
+# plt.title('Distribution of Retail Prices (IQR Filtered, < 400 EUR)')
+# plt.xlabel('Retail Price (EUR)')
+# plt.ylabel('Frequency')
+# plt.grid()
+# plt.tight_layout()
+# plt.show()
