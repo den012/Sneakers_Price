@@ -1,7 +1,6 @@
 import json
 import re
 
-#create a list with celebrities that worked with shoe companies
 celebs = ['Supreme', 'Prada', 'Migos', 'Gucci', 'Vetements', 'Maison Margiela', 'Kobe Bryant', 'Cardi B', 'Stüssy',
  'Balenciaga', 'Vivienne Westwood', 'Stone Island', 'Odell Beckham Jr.', "Puma's LaMelo Ball", 'Off-White', 'Versace',
  'One Star', 'Fenty', 'J Balvin', 'Comme des Garçons', 'Marcelo Burlon', 'Chanel', 'Selena Gomez', 'Nigo', 'Fendi',
@@ -19,38 +18,47 @@ celebs = ['Supreme', 'Prada', 'Migos', 'Gucci', 'Vetements', 'Maison Margiela', 
 'Undercover',
 ]
 
-def extract_collaboration(sneaker_name):
+
+def extract_collaboration(sneaker_name, celebs):
     colabs = []
+
+    # Check for a collaboration pattern
     if ' x ' in sneaker_name:
-        match = re.match(r'^(.*) [xX] (.*)', sneaker_name, re.IGNORECASE)
+        match = re.match(r'^(.*?)\s?[xX]\s?(.*)', sneaker_name)
         if match:
+            # Only keep the first part before the ' x '
             colabs.append(match.group(1).strip())
-    elif 'Kobe' in sneaker_name:
-        colabs.append('Kobe Bryant')
+
+    # Check if the name matches any celebrity from the list
     else:
         for celeb in celebs:
-            if celeb[:6].lower() in sneaker_name.lower():
+            if celeb.lower() in sneaker_name.lower():
                 colabs.append(celeb)
-    return ', '.join(colabs)
 
-def add_collaboration(input_file = 'sneakers_data.json', output_file = 'sneaker_data_v1.json'):
+    return ', '.join(colabs) if colabs else 'No'
+
+
+def add_collaboration(input_file, output_file, celebs=None):
+    if celebs is None:
+        celebs = []
+
     count = 0
-    with open(input_file, 'r', encoding = 'utf-8') as file:
+    with open(input_file, 'r', encoding='utf-8') as file:
         sneakers_data = json.load(file)
 
     for sneaker in sneakers_data:
         name = sneaker.get('sneaker_name')
         if name:
-            collaboration = extract_collaboration(name)
-            if collaboration:
+            collaboration = extract_collaboration(name, celebs)
+            if collaboration != 'No':
                 count += 1
-                print(collaboration)
                 sneaker['collaboration'] = 1
                 sneaker['collaboration_name'] = collaboration
             else:
                 sneaker['collaboration'] = 0
-                sneaker['collaboration_name'] = 'No'
-    with open(output_file, 'w', encoding = 'utf-8') as file:
-        json.dump(sneakers_data, file, ensure_ascii = False, indent= 4)
-    return count, sneakers_data
+                sneaker['collaboration_name'] = 'N/A'
 
+    with open(output_file, 'w', encoding='utf-8') as file:
+        json.dump(sneakers_data, file, ensure_ascii=False, indent=4)
+
+    return count, sneakers_data
