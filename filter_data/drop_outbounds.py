@@ -35,3 +35,12 @@ def filter_null(input_file, output_file):
     'lowest_price_eur','gp_lowest_price_eur'])
 
     data.to_json(output_file, orient='records', indent=4)
+
+
+def filter_days_since_release(input_file, output_file):
+    data = pd.read_json(input_file)
+    data = data.dropna(subset=['days_since_release'])
+
+    data = data[data['days_since_release'] <= 1000]
+
+    data.to_json(output_file, orient='records', indent=4)

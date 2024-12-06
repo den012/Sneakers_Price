@@ -33,7 +33,7 @@ def plot_price_kde(input_file):
 
 
 # Example usage
-plot_price_kde('../sneakers.json')
+plot_price_kde('./sneakers.json')
 
 
 # import pandas as pd

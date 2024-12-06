@@ -33,6 +33,9 @@ def main():
     #box condition
     # filter_box_condition('sneakers.json', 'sneakers.json')
 
+    #days since release
+    filter_days_since_release('sneakers.json', 'sneakers.json')
+
 
 
 
