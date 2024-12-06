@@ -24,3 +24,4 @@ Why:
 	•	Comprehensive Overview: A heatmap shows all pairwise correlations in a single visual, highlighting key relationships. If days_since_release or collaborations has a high correlation with price, it directly supports your hypothesis.
 	•	Feature Selection: Helps determine which variables have the most predictive power for your machine learning models.
 	•	Data-Driven Justification: Adds statistical rigor by identifying strong correlations (e.g., if collaborations correlates with higher prices, it’s evidence-backed).
+make the professor seem we undertand why the model is the best in the market and why did i choose it.

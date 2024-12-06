@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 
 # Load the CSV file
-file_path = './sneakers.csv'  # Replace with your actual file path
+file_path = '../sneakers.csv'  # Replace with your actual file path
 data = pd.read_csv(file_path)
 
 # Extract the 'brand' column
