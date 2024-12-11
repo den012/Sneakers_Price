@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d93bbf64-ff34-42f2-ac39-fb8416d4095d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hypothesis1/distribution.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/xgb_model.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_visualize_data/brand.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_visualize_data/brand.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_visualize_data/days_since.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_visualize_data/days_since.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hypothesis/hipo3.ipnyb.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/hypothesis/hipo3.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +53,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.help">
+  <component name="RunManager" selected="Python.market_indicators">
     <configuration name="collab_over_price" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="project 2.0" />
       <option name="ENV_FILES" value="" />
@@ -176,11 +171,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.help" />
         <item itemvalue="Python.market_indicators" />
         <item itemvalue="Python.days_over_price" />
         <item itemvalue="Python.corelation_matrix" />
         <item itemvalue="Python.collab_over_price" />
+        <item itemvalue="Python.help" />
       </list>
     </recent_temporary>
   </component>
@@ -204,7 +199,10 @@
       <workItem from="1733498418057" duration="3279000" />
       <workItem from="1733508496952" duration="3054000" />
       <workItem from="1733511763695" duration="862000" />
-      <workItem from="1733512630106" duration="1126000" />
+      <workItem from="1733512630106" duration="1230000" />
+      <workItem from="1733527605036" duration="3920000" />
+      <workItem from="1733739027590" duration="940000" />
+      <workItem from="1733745529096" duration="9000" />
     </task>
     <servers />
   </component>
@@ -213,12 +211,12 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/project_2_0$model.coverage" NAME="model Coverage Results" MODIFIED="1733498572792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model" />
-    <SUITE FILE_PATH="coverage/project_2_0$market_indicators.coverage" NAME="market_indicators Coverage Results" MODIFIED="1733504567437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/new_visualize" />
+    <SUITE FILE_PATH="coverage/project_2_0$market_indicators.coverage" NAME="market_indicators Coverage Results" MODIFIED="1733527632773" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/new_visualize" />
     <SUITE FILE_PATH="coverage/project_2_0$distribution.coverage" NAME="distribution Coverage Results" MODIFIED="1733502921427" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hypothesis1" />
     <SUITE FILE_PATH="coverage/project_2_0$brand.coverage" NAME="brand Coverage Results" MODIFIED="1733504518079" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/old_visualize_data" />
     <SUITE FILE_PATH="coverage/project_2_0$help.coverage" NAME="help Coverage Results" MODIFIED="1733510177524" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/project_2_0$corelation_matrix.coverage" NAME="corelation_matrix Coverage Results" MODIFIED="1733504557386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/new_visualize" />
-    <SUITE FILE_PATH="coverage/project_2_0$days_over_price.coverage" NAME="days_over_price Coverage Results" MODIFIED="1733504563138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/new_visualize" />
-    <SUITE FILE_PATH="coverage/project_2_0$collab_over_price.coverage" NAME="collab_over_price Coverage Results" MODIFIED="1733504552784" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/new_visualize" />
+    <SUITE FILE_PATH="coverage/project_2_0$corelation_matrix.coverage" NAME="corelation_matrix Coverage Results" MODIFIED="1733527621278" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/new_visualize" />
+    <SUITE FILE_PATH="coverage/project_2_0$days_over_price.coverage" NAME="days_over_price Coverage Results" MODIFIED="1733527627435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/new_visualize" />
+    <SUITE FILE_PATH="coverage/project_2_0$collab_over_price.coverage" NAME="collab_over_price Coverage Results" MODIFIED="1733527611182" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/new_visualize" />
   </component>
 </project>
